@@ -1,4 +1,4 @@
-package encryption;
+package encryptionAndDecryption;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -15,7 +15,9 @@ public class EncryptionAndDecryption {
 
     public static boolean encryptionAndDecryption(int mode, String key, File file){
         try {
-            encryptedFile = new File((mode == Cipher.ENCRYPT_MODE)? file.getName() + ".anas" : file.getName().replace(".anas", ""));
+            String filePath = file.toString();
+            encryptedFile = new File((mode == Cipher.ENCRYPT_MODE)?
+                    filePath + ".anas" : filePath.replace(".anas", ""));
 
             Key secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);

