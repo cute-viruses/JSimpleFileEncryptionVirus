@@ -15,7 +15,7 @@ public class EncryptionAndDecryption {
 
     public static boolean encryptionAndDecryption(int mode, String key, File file){
         try {
-            encryptedFile = new File(file.getName() + ".anas");
+            encryptedFile = new File((mode == Cipher.ENCRYPT_MODE)? file.getName() + ".anas" : file.getName().replace(".anas", ""));
 
             Key secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
