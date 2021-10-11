@@ -1,65 +1,47 @@
 package decryptionTool;
 
+import decryptionTool.gui.MainFrame;
 import encryptionAndDecryption.Decryption;
 import enums.To;
 import files.GetFiles;
 import gui.Dialogs;
+import helpers.Constants;
 import helpers.FunctionsHelper;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
-    private static final String os = FunctionsHelper.getOs();
-
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Decryption Tool");
-        // Set up the frame
-        Container container = frame.getContentPane();
-        GroupLayout groupLayout = new GroupLayout(container);
-        frame.setLayout(groupLayout);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        groupLayout.setAutoCreateGaps(true);
-        groupLayout.setAutoCreateContainerGaps(true);
-        groupLayout.preferredLayoutSize(container);
-
-        Font font = new Font("Serif", Font.PLAIN, 40);
-
-        JLabel welcome = new JLabel("Welcome");
-        JTextField keyField = new JTextField();
-        JButton button = new JButton("Decrypt my files");
-
-        // Set font
-        welcome.setFont(font);
-        keyField.setFont(font);
-        button.setFont(font);
-
-        // Set size
-        button.setSize(button.getPreferredSize());
-
-        // Add all components to the group layout
-        groupLayout.setHorizontalGroup(
-                groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(welcome)
-                        .addComponent(keyField)
-                        .addComponent(button)
-        );
-        groupLayout.setVerticalGroup(
-                groupLayout.createSequentialGroup()
-                        .addComponent(welcome)
-                        .addComponent(keyField)
-                        .addComponent(button)
-        );
-
-        frame.pack();
-        frame.setVisible(true);
+        // Get os
+        String os = FunctionsHelper.getOs();
+        
+        // Check already run
+        FileWriter operationFile = null;
+        if (FunctionsHelper.isRunning()) {
+            Dialogs.alreadyRunning();
+            System.exit(0);
+        }
+        // Create operation file
+        try {
+            operationFile = new FileWriter(Constants.operationFileName);
+        } catch (IOException e) {
+            Dialogs.errorDialog(e.getMessage());
+            System.exit(1);
+        }
+        
+        // Create main frame
+        MainFrame mainFrame = new MainFrame();
+        // Show main frame
+        mainFrame.setVisible(true);
 
         // Button action listener
-        button.addActionListener(listener -> {
-            String key = keyField.getText();
+        mainFrame.button.addActionListener(listener -> {
+            String key = mainFrame.keyField.getText();
             // Check key
             if (key.isEmpty())
                 Dialogs.messageDialog("Please enter the key", "The key field is empty");
@@ -82,7 +64,7 @@ public class Main {
                     // Verify that the key is correct
                     if (Decryption.check(key, sampleFile)) {
                         // Disable button
-                        button.setEnabled(false);
+                        mainFrame.button.setEnabled(false);
                         // Decryption all files
                         Decryption.decryption(key, getFiles, roots);
                     } else {
@@ -90,6 +72,59 @@ public class Main {
                                 "The decryption key is incorrect, make sure you copied correctly and try again");
                     }
                 }
+            }
+        });
+
+        FileWriter finalOperationFile = operationFile;
+        mainFrame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // Delete operation file
+                try {
+                    finalOperationFile.close();
+                    File file = new File(Constants.operationFileName);
+                    while (!file.delete() && file.exists()) {
+                        new Thread(() -> {
+                            try {
+                                Thread.sleep(300000);
+                            } catch (InterruptedException ignored) {
+                            }
+                        }).start();
+                    }
+                } catch (IOException ignored) {
+                }
+                // Exit
+                System.exit(0);
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
             }
         });
     }
