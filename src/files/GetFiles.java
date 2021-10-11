@@ -27,7 +27,7 @@ public class GetFiles {
         return drivers;
     }
 
-    public ArrayList<File> scanFiles(File drive, To to) {
+    public ArrayList<File> scanFiles(File drive, To to, boolean isVerify) {
         ArrayList<File> files = new ArrayList<>(Arrays.asList(Objects.requireNonNull(drive.listFiles())));
 
         int i = 0;
@@ -57,6 +57,11 @@ public class GetFiles {
                     else
                         break loo;
                 }
+            }
+            if (isVerify && file.getName().endsWith(".anas")) {
+                ArrayList<File> f = new ArrayList<>();
+                f.add(file);
+                return f;
             }
             isEnd = files.size() <= ++i;
         } while (!isEnd);
