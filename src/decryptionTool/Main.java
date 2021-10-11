@@ -1,7 +1,6 @@
 package decryptionTool;
 
 import encryptionAndDecryption.Decryption;
-import files.GetFiles;
 
 import javax.swing.*;
 import java.awt.*;
