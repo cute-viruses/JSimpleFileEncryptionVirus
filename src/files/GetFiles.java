@@ -69,7 +69,8 @@ public class GetFiles {
         // Filtration
         for (int j = 0; j < files.size(); j++) {
             File file = files.get(j);
-            if (to == To.DECRYPTION && !file.getName().endsWith(".anas")) {
+            if (to == To.DECRYPTION && !file.getName().endsWith(".anas")
+            || to == To.ENCRYPTION && file.getName().endsWith(".anas")) {
                 files.remove(j--);
                 continue;
             }
