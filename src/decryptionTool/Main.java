@@ -5,14 +5,12 @@ import encryptionAndDecryption.Decryption;
 import enums.To;
 import files.GetFiles;
 import gui.Dialogs;
-import helpers.Constants;
 import helpers.FunctionsHelper;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {

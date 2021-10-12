@@ -1,10 +1,12 @@
 package files;
 
+import helpers.Constants;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class CreateReadMeFile {
@@ -61,7 +63,17 @@ public class CreateReadMeFile {
      * @throws IOException If you can't create the file
      */
     public void create (String path) throws IOException {
-        readMeFile = new FileWriter(path + "\\Readme.txt");
+        String fullPath = path + "\\" + Constants.readmeFileName;
+        // Check
+        int i = 1;
+        while (new File(fullPath).exists()) {
+            String target = Constants.readmeFileName.replace(".txt",  (i == 1? "" : i - 1) + ".txt");
+            String replacement = Constants.readmeFileName.replace(".txt",  (i + ".txt"));
+
+            fullPath = fullPath.replace(target, replacement);
+            i++;
+        }
+        readMeFile = new FileWriter(fullPath);
         readMeFile.write(content);
         readMeFile.close();
         readMeFile = null; // Remove object from memory

