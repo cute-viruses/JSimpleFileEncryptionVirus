@@ -13,6 +13,13 @@ public class EncryptionAndDecryption {
 
     private static File encryptedFile;
 
+    /**
+     * This function is used to encrypt and decrypt the file
+     * @param mode The mode or operation you want to perform (file encryption or decryption)
+     * @param key Encryption or decryption key
+     * @param file The file you want to encrypt or decrypt
+     * @return True if the function can encrypt the file, false if it cannot encrypt the file
+     */
     public static boolean encryptionAndDecryption(int mode, String key, File file){
         try {
             String filePath = file.toString();

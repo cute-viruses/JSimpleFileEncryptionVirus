@@ -15,6 +15,10 @@ public class GenerateID {
         return key.toString();
     }
 
+    /**
+     * Get the generated ID
+     * @return generated ID
+     */
     public String getID() {
         return ID;
     }

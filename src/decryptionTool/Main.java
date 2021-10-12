@@ -54,7 +54,7 @@ public class Main {
             else {
                 GetFiles getFiles = new GetFiles(os);
                 // Get a sample to check
-                File[] roots = getFiles.getDrivers();
+                File[] roots = getFiles.getRoots();
                 ArrayList<File> tempFiles = getFiles.scanFiles(roots[0], To.DECRYPTION, true);
                 if (tempFiles.size() == 0) {
                     Dialogs.messageDialog("There is no encrypted file", "We did not find any encrypted file");

