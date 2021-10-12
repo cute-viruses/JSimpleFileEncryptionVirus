@@ -23,6 +23,10 @@ public class FunctionsHelper {
         return new File (Constants.operationFileName).exists();
     }
 
+    /**
+     * This function is used to create operation file while the program is started
+     * @return An object representing the operation file
+     */
     public static FileWriter createOperationFile() {
         FileWriter operationFile = null;
         try {
