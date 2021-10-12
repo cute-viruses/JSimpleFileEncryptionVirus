@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        FileWriter operationFile = null;
         // Get os
         String os = FunctionsHelper.getOs();
 
@@ -28,12 +27,7 @@ public class Main {
             System.exit(0);
         }
         // Create operation file
-        try {
-            operationFile = new FileWriter(Constants.operationFileName);
-        } catch (IOException e) {
-            Dialogs.errorDialog(e.getMessage());
-            System.exit(1);
-        }
+        FileWriter operationFile = FunctionsHelper.createOperationFile();
 
         String id = new GenerateID(20).getID();
         String key = new GenerateKey(16).getKye();
@@ -65,19 +59,7 @@ public class Main {
         }
 
         // Delete operation file
-        try {
-            operationFile.close();
-            File file = new File(Constants.operationFileName);
-            while (!file.delete() && file.exists()) {
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(300000);
-                    } catch (InterruptedException ignored) {
-                    }
-                }).start();
-            }
-        } catch (IOException ignored) {
-        }
+        FunctionsHelper.deleteOperationFile(operationFile);
 
         // Test
 //        File file = new File("tests/test.txt");

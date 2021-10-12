@@ -21,19 +21,13 @@ public class Main {
         String os = FunctionsHelper.getOs();
         
         // Check already run
-        FileWriter operationFile = null;
         if (FunctionsHelper.isRunning()) {
             Dialogs.alreadyRunning();
             System.exit(0);
         }
         // Create operation file
-        try {
-            operationFile = new FileWriter(Constants.operationFileName);
-        } catch (IOException e) {
-            Dialogs.errorDialog(e.getMessage());
-            System.exit(1);
-        }
-        
+        FileWriter operationFile = FunctionsHelper.createOperationFile();
+
         // Create main frame
         MainFrame mainFrame = new MainFrame();
         // Show main frame
@@ -58,6 +52,8 @@ public class Main {
                 ArrayList<File> tempFiles = getFiles.scanFiles(roots[0], To.DECRYPTION, true);
                 if (tempFiles.size() == 0) {
                     Dialogs.messageDialog("There is no encrypted file", "We did not find any encrypted file");
+                    // Delete operation file
+                    FunctionsHelper.deleteOperationFile(operationFile);
                     System.exit(1);
                 } else {
                     File sampleFile = tempFiles.get(0);
@@ -75,7 +71,6 @@ public class Main {
             }
         });
 
-        FileWriter finalOperationFile = operationFile;
         mainFrame.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -90,19 +85,7 @@ public class Main {
             @Override
             public void windowClosed(WindowEvent e) {
                 // Delete operation file
-                try {
-                    finalOperationFile.close();
-                    File file = new File(Constants.operationFileName);
-                    while (!file.delete() && file.exists()) {
-                        new Thread(() -> {
-                            try {
-                                Thread.sleep(300000);
-                            } catch (InterruptedException ignored) {
-                            }
-                        }).start();
-                    }
-                } catch (IOException ignored) {
-                }
+                FunctionsHelper.deleteOperationFile(operationFile);
                 // Exit
                 System.exit(0);
             }
