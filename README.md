@@ -1,4 +1,5 @@
-[![wakatime](https://wakatime.com/badge/user/0671d7a1-0f1f-4dae-9501-2d7aa4f6fc20/project/d25bb704-66db-4dfa-8f53-5499c6698536.svg)](https://wakatime.com/badge/user/0671d7a1-0f1f-4dae-9501-2d7aa4f6fc20/project/d25bb704-66db-4dfa-8f53-5499c6698536)
+[![wakatime](https://wakatime.com/badge/github/Anas-Elgarhy/File-Encryption-Virus---Using-Java.svg)](https://wakatime.com/badge/github/Anas-Elgarhy/File-Encryption-Virus---Using-Java)
+
 ## English
 <p>
 In this project, I try to simulate how file encryption viruses work for study and research purposes only, so I used the dry language
